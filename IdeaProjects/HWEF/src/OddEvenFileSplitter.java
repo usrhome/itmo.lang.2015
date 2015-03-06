@@ -1,20 +1,49 @@
 import java.io.*;
 
-public class OddEvenFileSplitter implements FileSplitter.SplitConfig{
-    static String s = new String();
-    static String s1 = new String();
-    static String s2 = new String();
-    public static void main(String[] args)  {
-        int i = 0;
-        s = args[0];
-        s1 = args[1];
-        s2 = args[2];
+public class OddEvenFileSplitter implements FileSplitter {
+
+
+    public static void main(final String[] args) {
         OddEvenFileSplitter odd = new OddEvenFileSplitter();
+        SplitConfig config = new SplitConfig() {
+
+            public String getSourceFilePath() {
+                File f1 = new File(args[0]);
+                return args[0];
+            }
+
+            public String getOddLinesFilePath() {
+                File f2 = new File(args[1]);
+                try {
+                    f2.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return args[1];
+            }
+
+            public String getEvenLinesFilePath() {
+                File f3 = new File(args[2]);
+                try {
+                    f3.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return args[2];
+            }
+        };
+        odd.splitFile(config);
+    }
+
+    public void splitFile(SplitConfig config) {
         try {
-            Reader r1 = new FileReader(odd.getSourceFilePath());
-            Writer w2 = new FileWriter(odd.getOddLinesFilePath());
-            Writer w3 = new FileWriter(odd.getEvenLinesFilePath());
+            Reader r1 = new FileReader(config.getSourceFilePath());
+            Writer w2 = new FileWriter(config.getOddLinesFilePath());
+            Writer w3 = new FileWriter(config.getEvenLinesFilePath());
             BufferedReader r = new BufferedReader(r1);
+            int i = 0;
+            String s = new String();
+            s = config.getSourceFilePath();
             while ((s = r.readLine()) != null) {
                 if ((i % 2) == 0)
                     w2.write(s + "\n");
@@ -27,33 +56,5 @@ public class OddEvenFileSplitter implements FileSplitter.SplitConfig{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
-
-    public String getSourceFilePath() {
-        File f1 = new File(s + ".txt");
-        return s + ".txt";
-    }
-
-    public String getOddLinesFilePath() {
-        File f2 = new File(s1 + ".txt");
-        try {
-            f2.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return s1 + ".txt";
-    }
-
-    public String getEvenLinesFilePath() {
-        File f3 = new File(s2 + ".txt");
-        try {
-            f3.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return s2 + ".txt";
-    }
-
 }
