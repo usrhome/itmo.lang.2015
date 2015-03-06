@@ -33,28 +33,28 @@ public class OddEvenFileSplitter implements FileSplitter.SplitConfig{
 
 
     public String getSourceFilePath() {
-        File f1 = new File(s + ".txt");
-        return s + ".txt";
+        File f1 = new File(s);
+        return s;
     }
 
     public String getOddLinesFilePath() {
-        File f2 = new File(s1 + ".txt");
+        File f2 = new File(s1);
         try {
             f2.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return s1 + ".txt";
+        return s1;
     }
 
     public String getEvenLinesFilePath() {
-        File f3 = new File(s2 + ".txt");
+        File f3 = new File(s2);
         try {
             f3.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return s2 + ".txt";
+        return s2;
     }
 
 }
